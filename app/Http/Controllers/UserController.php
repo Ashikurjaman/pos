@@ -36,4 +36,9 @@ class UserController extends Controller
 
 
     }
+
+
+    function userLogin(Request $request){
+        
+    }
 }
