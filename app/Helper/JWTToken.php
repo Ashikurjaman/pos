@@ -4,17 +4,17 @@ namespace App\Helper;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
-
-
 class JWTToken {
 
 
-    function CreateToken($userEmail){
-        $key = env('JWT_KEY ');
+    public static function CreateToken($userEmail):string{
+
+        $key = env('JWT_KEY');
         $payload=[
             'iss'=> 'Laravel-token',
             'iat'=>time(),
             'exp'=>time()+60*60,
+
             'userEmail'=>$userEmail
 
         ];
@@ -22,9 +22,12 @@ class JWTToken {
         return JWT::encode($payload,$key,'HS256');
 
 
+
+
     }
 
-    function VerifyToken($token){
+    public static function VerifyToken($token):string
+    {
 
 
         try {
