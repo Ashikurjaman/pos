@@ -51,7 +51,7 @@ class UserController extends Controller
             # jwt token issue
 
             $token=JWTToken::CreateToken($request->input('email'));
-            // dd($token);
+            dd($token);
 
             return response()->json([
                 'status'=>'Success',
