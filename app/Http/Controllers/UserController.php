@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Helper\JWTToken;
+use App\Mail\OTPMail;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Throwable;
 
 class UserController extends Controller
@@ -58,6 +60,30 @@ class UserController extends Controller
                 'message'=>'Login Successfully',
                 'token'=>$token
             ],status:200);
+        }
+
+        else{
+            return response()->json([
+                'status'=>'failed',
+                'message'=>'unauthorize'
+            ],status:200);
+        }
+    }
+
+
+
+    function SendOTPCode(Request $request){
+
+            $email =$request->input('email');
+            $otp=rand(1000,9999);
+            $count=User::where('email','=',$email)->count();
+
+        if($count == 1){
+            // otp send to user email
+
+            Mail::to($email)->send(new OTPMail($otp));
+            //otp code database insert korte hobe
+            User::where ('email','=',$email)->update(['otp'=>$otp]);
         }
 
         else{

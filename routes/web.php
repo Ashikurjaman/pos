@@ -21,3 +21,6 @@ Route::get('/', function () {
 
 Route::post('/user-registration', [UserController::class,'userRegistration']);
 Route::post('/user-login', [UserController::class,'userLogin']);
+Route::post('/send-otp', [UserController::class,'SendOTPCode']);
+
+
