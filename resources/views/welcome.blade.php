@@ -8,12 +8,15 @@
         body{
             background-color: #00466a;
             margin: 0 auto;
+            text-align: center;
+            margin-top: 50px;
         }
+
     </style>
 </head>
 
 
 <body>
-><h2 class="website">Website Under Construction</h2
+<h2 class="website">Website Under Construction</h2
 </body>
 </html>

@@ -84,6 +84,11 @@ class UserController extends Controller
             Mail::to($email)->send(new OTPMail($otp));
             //otp code database insert korte hobe
             User::where ('email','=',$email)->update(['otp'=>$otp]);
+
+            return response()->json([
+                'status'=>'Success',
+                'message'=>'Please check mail box 4 digit code send to your inbox.'
+            ],status:200);
         }
 
         else{
