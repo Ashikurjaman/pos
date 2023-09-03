@@ -98,4 +98,25 @@ class UserController extends Controller
             ],status:200);
         }
     }
+
+
+    function VerifyOtp(Request $request){
+        $email= $request->input('email');
+        $otp= $request->input('otp');
+
+        $count= User::where('email','=',$email)->
+        where('otp','=',$otp)->count();
+
+        if($count==1){
+            // Database e otp update
+            // passwor reset jonno token issue 
+        }
+
+        else{
+            return response()->json([
+                'status'=>'failed',
+                'message'=>'unauthorize'
+            ],status:200);
+        }
+    }
 }
