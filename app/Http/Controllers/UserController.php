@@ -27,14 +27,14 @@ class UserController extends Controller
         return response()->json([
             'status'=>'success',
             'message'=>'Registration successful'
-        ]);
+        ],200);
         } catch (Throwable $th) {
             return response()->json([
                 'status'=>'failure',
                 'message'=> $th->getMessage()
 
 
-            ]);
+            ],401);
         }
 
 
@@ -45,28 +45,27 @@ class UserController extends Controller
 
        $count= User::where('email','=',$request->input('email'))
         ->where('password','=',$request->input('password'))
-
-        ->count();
+        ->select('id')->first();
 //  dd($count);
 
-        if ($count==1) {
+        if ($count!==null) {
             # jwt token issue
 
-            $token=JWTToken::CreateToken($request->input('email'));
-            dd($token);
+            $token=JWTToken::CreateToken($request->input('email'),$count->id);
+
 
             return response()->json([
                 'status'=>'Success',
                 'message'=>'Login Successfully',
                 'token'=>$token
-            ],status:200);
+            ],status:200)->cookie('token',$token,60*24*30);
         }
 
         else{
             return response()->json([
                 'status'=>'failed',
                 'message'=>'unauthorize'
-            ],status:200);
+            ],status:401);
         }
     }
 
@@ -77,10 +76,10 @@ class UserController extends Controller
             $email =$request->input('email');
             $otp=rand(1000,9999);
             $count=User::where('email','=',$email)->count();
-
+            // dd($count);
         if($count == 1){
             // otp send to user email
-
+            // dd($otp);
             Mail::to($email)->send(new OTPMail($otp));
             //otp code database insert korte hobe
             User::where ('email','=',$email)->update(['otp'=>$otp]);
@@ -109,7 +108,7 @@ class UserController extends Controller
 
         if($count==1){
             // Database e otp update
-            // passwor reset jonno token issue 
+            // password reset jonno token issue
         }
 
         else{

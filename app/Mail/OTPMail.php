@@ -13,9 +13,7 @@ class OTPMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     */
+
 
      public $otp;
 
@@ -25,7 +23,9 @@ class OTPMail extends Mailable
     {
         //
         $this->otp=$otp;
+        // dd($otp);
     }
+
 
     /**
      * Get the message envelope.
