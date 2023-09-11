@@ -83,6 +83,7 @@ class UserController extends Controller
             Mail::to($email)->send(new OTPMail($otp));
             //otp code database insert korte hobe
             User::where ('email','=',$email)->update(['otp'=>$otp]);
+            // dd($otp);
 
             return response()->json([
                 'status'=>'Success',
@@ -108,7 +109,17 @@ class UserController extends Controller
 
         if($count==1){
             // Database e otp update
+            User::where('email','=',$email)->
+        where(['otp'=>'0']);
+
             // password reset jonno token issue
+
+            $token=JWTToken::CreateTokenForSetPassword($request->input('email'));
+            return response()->json([
+                'status'=>'Success',
+                'message'=>'Otp verification successfully',
+                'token'=>$token
+            ],status:200);
         }
 
         else{
